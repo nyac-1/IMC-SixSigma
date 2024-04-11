@@ -28,17 +28,15 @@ class Trader:
         levels = {"AMETHYSTS": 10000, "STARFRUIT": 4900}
         
         for product in state.order_depths:
-            orders = []
             order_depth = state.order_depths[product]
             max_quantities = self.tradable_quantity(state.position.get(product, 0), limits.get(product))
             quantity_buy = min(10,max_quantities.get("buy"))
             quantity_sell = min(10,max_quantities.get("sell"))
 
-
             if quantity_buy != 0: # Will trade if we can take a position
-                orders += self.limit_order(order_depth, product, levels[product] - 1, quantity_buy, "buy")
+                orders = self.limit_order(order_depth, product, levels[product] - 1, quantity_buy, "buy")
             elif quantity_sell != 0:
-                orders += self.limit_order(order_depth, product, levels[product] + 1, quantity_sell, "sell")
+                orders = self.limit_order(order_depth, product, levels[product] + 1, quantity_sell, "sell")
 
             result[product] = orders
 
